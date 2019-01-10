@@ -154,7 +154,7 @@ export const constantRouterMap = [
     children: [
       {
         path: 'index',
-        name: 'Index',
+        name: 'deviceIndex',
         component: () => import('@/views/device/index'),
         meta: { title: '设备管理', icon: 'device' }
       }

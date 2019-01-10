@@ -127,7 +127,7 @@
 	import Pagination from '@/components/Pagination'
 
 	export default {
-		name: 'index',
+		name: 'device-index',
 		components: { Pagination },
 		data() {
 			return {
