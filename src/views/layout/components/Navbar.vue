@@ -2,12 +2,12 @@
   <el-menu class="navbar" mode="horizontal">
     <hamburger :toggle-click="toggleSideBar" :is-active="sidebar.opened" class="hamburger-container"/>
     <breadcrumb />
-    <el-dropdown class="avatar-container" trigger="click">
+    <div class="avatar-container">
       <div class="avatar-wrapper">
         <span>按会儿后台管理</span>
         <span class="logout" @click="logout">退出登录</span>
       </div>
-    </el-dropdown>
+    </div>
   </el-menu>
 </template>
 
@@ -63,6 +63,7 @@ export default {
     display: inline-block;
     position: absolute;
     right: 35px;
+    color: #666;
     span{
       margin-left: 20px;
     }

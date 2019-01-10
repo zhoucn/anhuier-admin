@@ -68,17 +68,18 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/profit/order',
     name: 'Profit',
-    meta: { title: '收益进账', icon: 'money' },
+    // meta: { title: '收益进账', icon: 'money' },
     children: [
       {
         path: 'order',
         name: 'Order',
         component: () => import('@/views/profit/order'),
-        meta: { title: '订单查询' }
+        meta: { title: '订单查询', icon: 'money' }
       },
       {
         path: 'turnover',
         name: 'Turnover',
+        hidden: true,
         component: () => import('@/views/profit/turnover'),
         meta: { title: '营业额查询' }
       }
@@ -87,6 +88,7 @@ export const constantRouterMap = [
   {
     path: '/user',
     component: Layout,
+    hidden: true,
     children: [
       {
         path: 'index',
@@ -100,11 +102,12 @@ export const constantRouterMap = [
     path: '/agent',
     component: Layout,
     name: 'Agent',
+    hidden: true,
     meta: { title: '代理管理', icon: 'agent' },
     children: [
       {
         path: 'index',
-        name: 'Index',
+        name: 'AgentIndex',
         component: () => import('@/views/agent/index'),
         meta: { title: '代理管理' }
       },
@@ -120,10 +123,11 @@ export const constantRouterMap = [
     path: '/driver',
     component: Layout,
     name: 'Driver',
+    hidden: true,
     children: [
       {
         path: 'index',
-        name: 'Index',
+        name: 'DriverIndex',
         component: () => import('@/views/driver/index'),
         meta: { title: '司机管理', icon: 'driver' }
       }
@@ -133,25 +137,26 @@ export const constantRouterMap = [
     path: '/cash',
     component: Layout,
     name: 'Cash',
+    hidden: true,
     children: [
       {
         path: 'index',
-        name: 'Index',
+        name: 'CashIndex',
         component: () => import('@/views/cash/index'),
         meta: { title: '提现管理', icon: 'cash' }
       }
     ]
   },
   {
-    path: '/equipment',
+    path: '/device',
     component: Layout,
-    name: 'Equipment',
+    name: 'Device',
     children: [
       {
         path: 'index',
         name: 'Index',
-        component: () => import('@/views/equipment/index'),
-        meta: { title: '机器管理', icon: 'equipment' }
+        component: () => import('@/views/device/index'),
+        meta: { title: '设备管理', icon: 'device' }
       }
     ]
   },
@@ -159,10 +164,11 @@ export const constantRouterMap = [
     path: '/cancel',
     component: Layout,
     name: 'Cancel',
+    hidden: true,
     children: [
       {
         path: 'index',
-        name: 'Index',
+        name: 'CancelIndex',
         component: () => import('@/views/cancel/index'),
         meta: { title: '注销管理', icon: 'cancel' }
       }

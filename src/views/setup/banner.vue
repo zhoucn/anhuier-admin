@@ -1,9 +1,11 @@
 <template>
     <div class="app-container">
         <div class="filter-container">
-            <el-button class="filter-item" style="margin-right: 50px;" type="primary" icon="el-icon-edit" @click="handleCreate">新增</el-button>
             <el-input placeholder="标题" v-model="listQuery.title" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"/>
             <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
+            <div class="right">
+                <el-button class="filter-item" type="primary" icon="el-icon-add" @click="handleCreate">新增</el-button>
+            </div>
         </div>
 
         <el-table
@@ -53,7 +55,7 @@
             </el-table-column>
         </el-table>
 
-        <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
+        <pagination v-show="total > 0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
 
         <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
             <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
@@ -286,7 +288,13 @@
 
 <style lang="scss" scoped>
     .filter-container{
+        position: relative;
         margin-bottom: 20px;
+        .right{
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
     }
 </style>
 
