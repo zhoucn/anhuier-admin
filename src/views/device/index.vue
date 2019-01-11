@@ -4,7 +4,7 @@
             <el-input placeholder="关键字" v-model="listQuery.title" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"/>
             <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
             <div class="right">
-                <el-button class="filter-item" type="primary" icon="el-icon-plus" @click="handleFilter">新增</el-button>
+                <el-button class="filter-item" type="primary" icon="el-icon-plus" @click="add">新增</el-button>
             </div>
         </div>
 
@@ -21,104 +21,90 @@
                 type="selection"
                 width="35">
             </el-table-column>
-            <el-table-column label="序号" prop="id" align="center" width="130">
+            <el-table-column label="设备ID" prop="id" align="center" width="80">
                 <template slot-scope="scope">
-                    <span>{{ scope.row.orderNo }}</span>
+                    <span>{{ scope.row.deviceId }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="按摩垫编号" width="100" align="center">
-                <template slot-scope="scope">
-                    <span>{{ scope.row.carrieroperator }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="状态" min-width="100" align="center">
-                <template slot-scope="scope">
-                    <span>{{ scope.row.orderTimes }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="使用状态" width="100" align="center">
-                <template slot-scope="scope">
-                    <span>{{ scope.row.money }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="使用时长(分钟)" width="100" align="center">
-                <template slot-scope="scope">
-                    <span>{{ scope.row.time }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="免费时长(分钟)" width="100" align="center">
-                <template slot-scope="scope">
-                    <span>{{ scope.row.time }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="剩余时长(分钟)" width="100" align="center">
-                <template slot-scope="scope">
-                    <span>{{ scope.row.time }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="投放地点" min-width="160" align="center">
+            <el-table-column label="设备编号" width="200" align="center">
                 <template slot-scope="scope">
                     <span>{{ scope.row.deviceNo }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="二维码" min-width="160" align="center">
+            <el-table-column label="设备状态" width="130" align="center">
                 <template slot-scope="scope">
-                    <span>{{ scope.row.deviceNo }}</span>
+                    <span>{{ scope.row.deviceState }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="地图" align="center" width="120">
+            <el-table-column label="使用状态" width="130" align="center">
                 <template slot-scope="scope">
-                    <span>{{ scope.row.status }}</span>
+                    <span>{{ scope.row.deviceUseState }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="司机" align="center" width="120">
+            <el-table-column label="司机名称" align="center" width="140">
                 <template slot-scope="scope">
-                    <span>{{ scope.row.name }}</span>
+                    <span>{{ scope.row.driverName }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="操作" align="center" width="100">
+            <el-table-column label="司机电话" align="center" width="160">
                 <template slot-scope="scope">
-                    <span><img :src="scope.row.avatar" width="50" height="50" /></span>
+                    <span>{{ scope.row.driverPhone }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="最后通讯时间" width="160" align="center">
+                <template slot-scope="scope">
+                    <span>{{ scope.row.lastRecordAt }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="车牌号" width="160" align="center">
+                <template slot-scope="scope">
+                    <span>{{ scope.row.carNo }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="操作" align="center" min-width="200">
+                <template slot-scope="scope">
+                    <el-button type="primary" size="mini" icon="el-icon-edit" @click="edit(scope.row)">编辑</el-button>
+                    <el-button type="danger" size="mini" icon="el-icon-delete" @click="delete(scope.row)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
 
-        <pagination v-show="total > 0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
+        <pagination layout="prev, pager, next" v-show="total > 0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
 
 
-        <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-            <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
-                <el-form-item label="时间" prop="timestamp">
-                    <el-date-picker v-model="temp.timestamp" type="datetime" placeholder="Please pick a date"/>
+        <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible" center width="40%" :close-on-click-modal="false">
+            <el-form ref="dataForm" label-position="left" label-width="70px" style="margin:0 50px;">
+                <el-form-item label="设备编号">
+                    <el-input v-model="temp.deviceNo"/>
                 </el-form-item>
-                <el-form-item label="标题" prop="title">
-                    <el-input v-model="temp.title"/>
+                <el-form-item label="设备状态">
+                    <el-input v-model="temp.deviceState"/>
                 </el-form-item>
-                <el-form-item label="状态">
-                    <el-select v-model="temp.status" class="filter-item" placeholder="Please select">
-                        <el-option v-for="item in statusOptions" :key="item" :label="item" :value="item"/>
-                    </el-select>
+                <el-form-item label="使用状态">
+                    <el-input v-model="temp.deviceUseState"/>
                 </el-form-item>
-                <el-form-item label="点评">
-                    <el-input :autosize="{ minRows: 2, maxRows: 4}" v-model="temp.remark" type="textarea" placeholder="Please input"/>
+                <el-form-item label="司机名称">
+                    <el-input v-model="temp.driverName"/>
+                </el-form-item>
+                <el-form-item label="司机电话">
+                    <el-input v-model="temp.driverPhone"/>
+                </el-form-item>
+                <el-form-item label="车牌号">
+                    <el-input v-model="temp.carNo"/>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogFormVisible = false">取消</el-button>
-                <el-button type="primary" @click="dialogStatus==='create'?createData():updateData()">确定</el-button>
+                <el-button type="primary" @click="">确定</el-button>
             </div>
         </el-dialog>
-
-        <el-dialog :visible.sync="dialogPvVisible" title="Reading statistics">
-            <el-table :data="pvData" border fit highlight-current-row style="width: 100%">
-                <el-table-column prop="key" label="Channel"/>
-                <el-table-column prop="pv" label="Pv"/>
-            </el-table>
-            <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogPvVisible = false">确定</el-button>
-      </span>
+        <el-dialog title="提示" :visible.sync="dialogDelete" center :close-on-click-modal="false">
+            <p>确定删除吗？</p>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogDelete = false">取消</el-button>
+                <el-button type="primary" @click="sureDelete">确定</el-button>
+            </div>
         </el-dialog>
-
     </div>
 </template>
 
@@ -139,30 +125,20 @@
 					page: 1,
 					limit: 20
 				},
-				sortOptions: [{ label: 'ID Ascending', key: '+id' }, { label: 'ID Descending', key: '-id' }],
-				statusOptions: ['published', 'draft', 'deleted'],
-				temp: {
-					id: undefined,
-					remark: '',
-					timestamp: new Date(),
-					title: '',
-					type: '',
-					status: 'published'
-				},
 				dialogFormVisible: false,
-				dialogStatus: '',
-				textMap: {
-					update: 'Edit',
-					create: 'Create'
-				},
+				temp: {
+					deviceId: '',
+					deviceNo: '',
+					deviceState: '',
+					deviceUseState: '',
+					driverName: '',
+					driverPhone: '',
+					carNo: ''
+                },
+				dialogTitle: '',
 				dialogPvVisible: false,
-				pvData: [],
-				rules: {
-					type: [{ required: true, message: 'type is required', trigger: 'change' }],
-					timestamp: [{ type: 'date', required: true, message: 'timestamp is required', trigger: 'change' }],
-					title: [{ required: true, message: 'title is required', trigger: 'blur' }]
-				},
-				downloadLoading: false,
+				dialogDelete: false,
+                deleteId: null,
 				datePicker: []
 			}
 		},
@@ -170,17 +146,38 @@
 			this.getList()
 		},
 		methods: {
-			getList() {
+			getList() { //获取设备列表
 				this.listLoading = false
-				deviceList(this.listQuery).then(response => {
-				  // this.list = response.data.items
-				  // this.total = response.data.total
+				deviceList(this.listQuery.page, this.listQuery.limit).then(response => {
+				  this.list = response.body.rows
 				  console.log(response);
+				  this.total = response.body.total;
 				  setTimeout(() => {
 				    this.listLoading = false
 				  }, 1.5 * 1000)
 				})
 			},
+            add() { //新增设备
+				this.dialogTitle = '新增设备'
+                this.dialogFormVisible = true;
+            },
+            edit(row) {  //编辑设备
+                let _this = this;
+				this.dialogTitle = '编辑设备'
+				this.dialogFormVisible = true;
+				Object.keys(_this.temp).forEach(function(e){
+					_this.temp[e] = row[e];
+                })
+            },
+			delete(row) {
+				this.dialogDelete = true;
+				console.log('99999999');
+				this.deleteId = row.deviceId
+            },
+            sureDelete() {
+				this.dialogDelete = false;
+				console.log(this.deleteId)
+            },
 			timeFilter() {
 				console.log(this.datePicker);
 			},
@@ -208,16 +205,6 @@
 					this.listQuery.sort = '-id'
 				}
 				this.handleFilter()
-			},
-			resetTemp() {
-				this.temp = {
-					id: undefined,
-					remark: '',
-					timestamp: new Date(),
-					title: '',
-					status: 'published',
-					type: ''
-				}
 			},
 			handleCreate() {
 				this.resetTemp()

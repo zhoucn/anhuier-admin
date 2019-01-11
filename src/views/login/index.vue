@@ -33,9 +33,6 @@
 </template>
 
 <script>
-// import { login } from '@/api/login'
-// import axios from 'axios'
-
 export default {
   name: 'Login',
   data() {
@@ -66,36 +63,12 @@ export default {
       }
     },
     handleLogin() {
-    	let _this = this;
+		this.loading = true
 		this.$store.dispatch('Login', this.loginForm).then(() => {
 			this.$router.push({ path: this.redirect || '/' })
 		}).catch(() => {
 			this.loading = false
 		})
-		// axios({
-        //     url: 'https://api.anhuier.net/bin/v1/auth/login',
-        //     method: 'post',
-        //     data: {
-		// 		userName: _this.loginForm['username'],
-		// 		password: _this.loginForm['password']
-        //     }
-        // }).then(res => {
-		// 	console.log(res);
-		// 	_this.$store.dispatch('Login', _this.loginForm).then(() => {
-		// 		_this.loading = false
-		// 		_this.$router.push({ path: _this.redirect || '/' })
-		// 	}).catch(() => {
-		// 		_this.loading = false
-		// 	})
-		// }).catch(err => {
-		// 	console.log(err);
-		// })
-        // login(this.loginForm['username'],this.loginForm['password']).then(response => {
-		// 	console.log(response);
-        //     _this.$router.push({ path: this.redirect || '/' })
-        // }).catch(err => {
-        // 	console.log(err);
-        // })
     }
   }
 }

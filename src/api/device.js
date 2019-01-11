@@ -1,9 +1,12 @@
 import request from '@/utils/request'
 
-export function deviceList(data) {
+export function deviceList(page,limit) {
 	return request({
 		url: '/device/list',
 		method: 'post',
-		data
+		data: {
+			page: page,
+			limit: limit
+		}
 	})
 }
