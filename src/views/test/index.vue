@@ -45,7 +45,7 @@
 
 
         <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible" center width="50%" style="max-height:80%;">
-            <el-table :data="rList" border style="height:100%;">
+            <el-table :data="rList" border height="400">
                 <el-table-column label="运行时间(秒)" min-width="100px" align="center">
                     <template slot-scope="scope">
                         <span>{{ scope.row.run_time }}</span>
@@ -100,7 +100,7 @@
 			this.getList()
             setInterval(function(){
             	_this.getList()
-            },5000)
+            },3000)
 		},
 		methods: {
 			getList() { //获取设备列表
