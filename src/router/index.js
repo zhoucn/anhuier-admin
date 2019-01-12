@@ -174,6 +174,19 @@ export const constantRouterMap = [
       }
     ]
   },
+  {
+    path: '/test',
+    component: Layout,
+    name: 'Test',
+    children: [
+      {
+        path: 'index',
+        name: 'testIndex',
+        component: () => import('@/views/test/index'),
+        meta: { title: '测试管理', icon: 'device' }
+      }
+    ]
+  },
   { path: '*', redirect: '/404', hidden: true }
 ]
 

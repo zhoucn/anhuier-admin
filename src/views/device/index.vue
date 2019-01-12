@@ -99,7 +99,7 @@
             </div>
         </el-dialog>
         <el-dialog title="提示" :visible.sync="dialogDelete" center :close-on-click-modal="false" width="300px">
-            <p>确定删除吗？</p>
+            <p style="margin:0;text-align:center;">确定删除吗？</p>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogDelete = false">取消</el-button>
                 <el-button type="primary" @click="sureDelete">确定</el-button>
