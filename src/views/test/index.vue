@@ -130,6 +130,7 @@
 				})
             },
             handleStart(){
+				let _this = this;
 				this.is_start = false;
 				start().then(res => {
 					// console.log(res);
