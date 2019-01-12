@@ -63,8 +63,8 @@
             </el-table-column>
             <el-table-column label="操作" align="center" min-width="200">
                 <template slot-scope="scope">
-                    <el-button type="primary" size="mini" icon="el-icon-edit" @click="edit(scope.row)">编辑</el-button>
-                    <el-button type="danger" size="mini" icon="el-icon-delete" @click="delete(scope.row)">删除</el-button>
+                    <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleEdit(scope.row)">编辑</el-button>
+                    <el-button type="danger" size="mini" icon="el-icon-delete" @click="handleDelete(scope.row)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -98,7 +98,7 @@
                 <el-button type="primary" @click="">确定</el-button>
             </div>
         </el-dialog>
-        <el-dialog title="提示" :visible.sync="dialogDelete" center :close-on-click-modal="false">
+        <el-dialog title="提示" :visible.sync="dialogDelete" center :close-on-click-modal="false" width="300px">
             <p>确定删除吗？</p>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogDelete = false">取消</el-button>
@@ -161,7 +161,7 @@
 				this.dialogTitle = '新增设备'
                 this.dialogFormVisible = true;
             },
-            edit(row) {  //编辑设备
+			handleEdit(row) {  //编辑设备
                 let _this = this;
 				this.dialogTitle = '编辑设备'
 				this.dialogFormVisible = true;
@@ -169,14 +169,19 @@
 					_this.temp[e] = row[e];
                 })
             },
-			delete(row) {
+			handleDelete(row) {
 				this.dialogDelete = true;
-				console.log('99999999');
 				this.deleteId = row.deviceId
             },
             sureDelete() {
 				this.dialogDelete = false;
 				console.log(this.deleteId)
+				this.$notify({
+					title: '成功',
+					message: '删除成功',
+					type: 'success',
+					duration: 2000
+				})
             },
 			timeFilter() {
 				console.log(this.datePicker);
@@ -265,16 +270,16 @@
 					}
 				})
 			},
-			handleDelete(row) {
-				this.$notify({
-					title: '成功',
-					message: '删除成功',
-					type: 'success',
-					duration: 2000
-				})
-				const index = this.list.indexOf(row)
-				this.list.splice(index, 1)
-			}
+			// handleDelete(row) {
+			// 	this.$notify({
+			// 		title: '成功',
+			// 		message: '删除成功',
+			// 		type: 'success',
+			// 		duration: 2000
+			// 	})
+			// 	const index = this.list.indexOf(row)
+			// 	this.list.splice(index, 1)
+			// }
 		}
 	}
 </script>
